@@ -23,7 +23,6 @@
 <div class="theme-layout">
 
 </div>
-
 <section>
     <div class="feature-photo">
         <figure><img src="{{ object.user.profile.timeline.url }}"
@@ -33,11 +32,12 @@
                 <span style="color: white; font-size: 27px; margin-right: 520px;"><b><u><a
                         href="/">Home</a></u></b></span>
                 <span style="color: white; font-size: 27px;"><b>{{ object.user.postmaker_set.all.count }} total posts</b></span>
-                <span style="color: white; font-size: 27px;"><b>{{ object_user.likephoto_set.all.count }} total post likes</b></span>
+                <span style="color: white; font-size: 27px;"><b>{{ object.user.owner.all.count}} total post likes</b></span>
                 <span style="color: white; font-size: 27px;"><b>{{ object_user.follower.count }} following</b></span>
                 <span style="color: white; font-size: 27px;"><b>{{ object_user.following.count }} followers</b></span>
-                {#					<a href="" title="" data-ripple=""><button onclick="{% url 'follow user' pk=object.user.pk %}" style="background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a>#}
+                {% if request.user.is_authenticated and request.user != object.user %}
                 <a href="{% url 'follow user' pk=object_user.pk %}">Follow</a>
+                {% endif %}
 
             </div>
         </form>

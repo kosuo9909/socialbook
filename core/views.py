@@ -53,6 +53,7 @@ class SignUp(CreateView):
 class SignIn(LoginView):
     template_name = 'signin.html'
     success_url = reverse_lazy('index')
+    next_page = reverse_lazy('index')
 
 
 class SignOut(LogoutView):
@@ -108,6 +109,14 @@ class UploadPhoto(CreateView):
         return super().form_valid(form)
 
 
+class UpdatePost(UpdateView):
+    template_name = 'update-post.html'
+    model = PostMaker
+    fields = ['image', 'caption']
+
+    success_url = reverse_lazy('index')
+
+
 def delete_photo(request, pk):
     photo = PostMaker.objects.get(pk=pk)
     photo.delete()
@@ -117,14 +126,18 @@ def delete_photo(request, pk):
 
 def like_photo(request, photo_id):
     try:
+        photo = PostMaker.objects.get(pk=photo_id)
+        photo_owner = photo.user
         LikePhoto.objects.create(
             user=request.user,
             photo=PostMaker.objects.get(pk=photo_id),
+            owner=photo_owner,
         )
     except IntegrityError:
         LikePhoto.objects.get(
             user=request.user,
             photo=PostMaker.objects.get(pk=photo_id),
+            owner=photo_owner,
         ).delete()
 
     return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
