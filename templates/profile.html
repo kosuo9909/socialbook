@@ -37,7 +37,7 @@
                 <span style="color: white; font-size: 27px;"><b>{{ object_user.follower.count }} following</b></span>
                 <span style="color: white; font-size: 27px;"><b>{{ object_user.following.count }} followers</b></span>
                 {#					<a href="" title="" data-ripple=""><button onclick="{% url 'follow user' pk=object.user.pk %}" style="background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a>#}
-                <a href="{% url 'follow user' pk=object_user.pk %}">TEST</a>
+                <a href="{% url 'follow user' pk=object_user.pk %}">Follow</a>
 
             </div>
         </form>
@@ -86,7 +86,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <ul style="font-size: 35px; margin: auto">My photos</ul>
+                <ul style="font-size: 35px; margin: auto">My posts</ul>
                 <br>
                 <div class="col-lg-12">
                     <div class="row" id="page-contents">
