@@ -21,8 +21,8 @@
 
 <div class="container m-auto">
 
-    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile
-        {% if request.user.is_authenticated %}for {{ request.user.username }} {% endif %}
+    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile Settings
+        {% if request.user.is_authenticated %}for {{ object.user.username }} {% endif %}
     </h1>
     <br>
     <hr>
