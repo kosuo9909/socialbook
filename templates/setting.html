@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
+    <title>Settings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
+</head>
+
+<body>
+
+
+<div class="container m-auto">
+
+    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile
+        {% if request.user.is_authenticated %}for {{ request.user.username }} {% endif %}
+    </h1>
+    <br>
+    <hr>
+<form method="post" action="{% url 'delete profile' pk=request.user.pk %}">
+ {{ delete_profile }}
+
+<button type="submit">Delete my profile </button>
+    {% csrf_token %}
+</form>
+    <form method="post" action="" enctype="multipart/form-data">
+
+        {% for form_field in form %}
+            {% if is_owner %}
+            {{ form_field.label }}
+            {{ form_field }}
+            {% else %}
+
+            <fieldset disabled="disabled"> {{ form_field }} </fieldset>
+            {% endif %}
+        {% endfor %}
+        {% csrf_token %}
+        <br>
+        <input type="submit" value="Save">
+        <input type="reset" value="Reset to default">
+    </form>
+</div>
+
+<br>
+
+
+<!-- Scripts
+   ================================================== -->
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/uikit.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+</body>
+
+</html>
