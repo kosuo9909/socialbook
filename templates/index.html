@@ -43,8 +43,8 @@
 
                                         <img src="{{ photo.user.profile.profileimg.url }}" alt=""
 
-                                            <div class="bg-gray-200 border border-white rounded-full w-8 h-8">
-                                    </div>
+                                        <div class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                        </div>
                                 </a>
                                 <span class="block capitalize font-semibold "> <a
                                         href="{% url 'update profile' pk=photo.user_id %}">@{{ photo.username }}</a>  </span>
@@ -102,7 +102,7 @@
                         </div>
                         <br>
                         <div uk-lightbox>
-                            <a href="#{{photo.pk}}">
+                            <a href="#{{ photo.pk }}">
                                 <img src="{{ photo.image.url }}" alt="">
                             </a>
                         </div>
@@ -111,6 +111,7 @@
                         <div class="py-3 px-4 space-y-3">
 
                             <div class="flex space-x-4 lg:font-bold">
+                                {% if request.user.is_authenticated %}
                                 <a href="{% url 'like photo' photo_id=photo.pk %}"
                                    class="flex items-center space-x-2">
                                     <div class="p-2 rounded-full text-black">
@@ -122,13 +123,15 @@
 
 
                                 </a>
+                                {% endif %}
                                 <a href="" class="flex items-center space-x-2">
                                     <div class="p-2 rounded-full text-black">
 
                                     </div>
 
 
-                                    <a href="{% url 'copy' photo_id=photo.pk %}" class="flex items-center space-x-2 flex-1 justify-end">
+                                    <a href="{% url 'copy' photo_id=photo.pk %}"
+                                       class="flex items-center space-x-2 flex-1 justify-end">
                                         <svg aria-hidden="true" role="img"
                                              width="25" height="25" preserveAspectRatio="xMidYMid meet"
                                              viewBox="0 0 16 16">
@@ -160,15 +163,17 @@
 
 
                             <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
-                                <form method="post" action="{% url 'comment' photo_id=photo.pk %}">
-                                    {{ comment_form }}
-                                    <button type="submit"> Submit</button>
+                                {% if request.user.is_authenticated %}
+                                    <form method="post" action="{% url 'comment' photo_id=photo.pk %}">
+                                        {{ comment_form }}
+                                        <button type="submit"> Submit</button>
 
 
-                                    {% csrf_token %}
+                                        {% csrf_token %}
 
 
-                                </form>
+                                    </form>
+                                {% endif %}
                                 {% for comment in photo.commentphoto_set.all %}
 
                                     <label>
