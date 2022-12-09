@@ -140,7 +140,7 @@ def like_photo(request, photo_id):
             owner=photo_owner,
         ).delete()
 
-    return redirect(request.META['HTTP_REFERER'] + f'#{photo_id}')
+    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{photo_id}')
 
 
 @login_required
@@ -156,7 +156,8 @@ def comment_photo(request, photo_id):
     else:
         print('INVALID')
 
-    return redirect('index')
+    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{photo_id}')
+
 
 
 def delete_comment(request, pk):
@@ -177,7 +178,8 @@ def update_comment(request, pk):
 
     context['update_comment'] = form
 
-    return render(request, 'index.html', context=context)
+    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{pk}')
+
 
 
 def follow_user(request, pk):
@@ -194,5 +196,5 @@ def follow_user(request, pk):
 
 
 def copy_to_clipboard(request, photo_id):
-    pyperclip.copy(f'{request.META["HTTP_REFERER"]}#{photo_id}')
-    return redirect(f'{request.META["HTTP_REFERER"]}#{photo_id}')
+    pyperclip.copy(f'{request.META["HTTP_REFERER"]}#photo-{photo_id}')
+    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{photo_id}')
