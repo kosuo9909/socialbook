@@ -36,13 +36,13 @@ class Profile(models.Model):
     # id_user = models.IntegerField()
     bio = models.TextField(blank=True,
                            null=False)
-    profileimg = models.ImageField(upload_to='profile_images', default='profile_images/def2.png',
+    profileimg = models.ImageField(upload_to='profile_images', default='defaults/def.png',
                                    verbose_name='Profile Picture',
                                    blank=True,
                                    null=True,
                                    )
 
-    timeline = models.ImageField(upload_to='timeline_images', default='other/default_timeline.png',
+    timeline = models.ImageField(upload_to='timeline_images', default='defaults/timeline1.png',
                                    verbose_name='Timeline Picture',
                                    blank=True,
                                    null=True,
