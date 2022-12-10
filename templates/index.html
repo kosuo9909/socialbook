@@ -19,7 +19,10 @@
 </head>
 {% block content %}
     <body>
+
+
     {% if photos %}
+
 
         <div class="container m-auto">
 
@@ -41,7 +44,7 @@
                                 <a href="{% url 'update profile' pk=photo.user.pk %}">
                                     <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
 
-                                        <img src="{{ photo.user.profile.profileimg.url }}" alt=""
+                                        <img src="{{ photo.user.profile.profileimg.url }}"
 
                                         <div class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                         </div>
@@ -77,17 +80,17 @@
 
                             <div class="flex space-x-4 lg:font-bold">
                                 {% if request.user.is_authenticated %}
-                                <a href="{% url 'like photo' photo_id=photo.pk %}"
-                                   class="flex items-center space-x-2">
-                                    <div class="p-2 rounded-full text-black">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                             fill="currentColor" width="25" height="25" class="">
-                                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
-                                        </svg>
-                                    </div>
+                                    <a href="{% url 'like photo' photo_id=photo.pk %}"
+                                       class="flex items-center space-x-2">
+                                        <div class="p-2 rounded-full text-black">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                 fill="currentColor" width="25" height="25" class="">
+                                                <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                                            </svg>
+                                        </div>
 
 
-                                </a>
+                                    </a>
                                 {% endif %}
                                 <a href="" class="flex items-center space-x-2">
                                     <div class="p-2 rounded-full text-black">
@@ -101,7 +104,8 @@
                                              width="25" height="25" preserveAspectRatio="xMidYMid meet"
                                              viewBox="0 0 16 16">
                                             <g fill="currentColor">
-                                                <img src="/media/defaults/copy_icon.png" height="35px" width="35px" alt="">
+                                                <img src="/media/defaults/copy_icon.png" height="35px" width="35px"
+                                                     alt="">
 
                                             </g>
                                         </svg>
@@ -178,35 +182,66 @@
             <div class="lg:w-5/12">
 
                 <div class="bg-white  shadow-md rounded-md overflow-hidden">
+                    <form action="" method="get">
+                        <label>
+                            {% if found_users %}
+                                <input type="text" placeholder='Showing results for "{{ user_find_query }}"' name="find_user">
+                            {% else %}
+                                <input type="text" placeholder="Search for username..." name="find_user">
 
-                    <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
-                        <h2 class="font-semibold text-lg">Recently Joined</h2>
-                        <a href="#"> Refresh</a>
-                    </div>
-                    {% for user in users %}
-                        <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
-                            <div class="flex items-center justify-between py-3">
-                                <div class="flex flex-1 items-center space-x-4">
-                                    <a href="{% url 'update profile' pk=user.pk %}">
-                                        <img src="{{ user.profile.profileimg.url }}"
-                                             class="bg-gray-200 rounded-full w-10 h-10" alt="">
-                                    </a>
-                                    <div class="flex flex-col">
-                                        <span class="block capitalize font-semibold"> {{ user.username }} </span>
-                                        <span class="block capitalize text-sm">  </span>
-                                    </div>
-                                </div>
+                            {% endif %}
+                        </label> <input type="submit" value="Find user" style="margin-left:75px">
+                        <input type="submit" value="Clear results" name="find_user">
 
-                                <a href="{% url 'update profile' pk=user.pk %}"
-                                   class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 ">
-                                    View </a>
-
-
-                            </div>
-
+                    </form>
+                    {% if not found_users %}
+                        <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
+                            <h2 class="font-semibold text-lg">Recently Joined</h2>
                         </div>
-                    {% endfor %}
-
+                        {% for user in users %}
+                            <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
+                                <div class="flex items-center justify-between py-3">
+                                    <div class="flex flex-1 items-center space-x-4">
+                                        <a href="{% url 'update profile' pk=user.pk %}">
+                                            <img src="{{ user.profile.profileimg.url }}"
+                                                 class="bg-gray-200 rounded-full w-10 h-10" alt="">
+                                        </a>
+                                        <div class="flex flex-col">
+                                            <span class="block capitalize font-semibold"> {{ user.username }} </span>
+                                            <span class="block capitalize text-sm">  </span>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'update profile' pk=user.pk %}"
+                                       class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 ">
+                                        View </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if found_users %}
+                        <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
+                            <h2 class="font-semibold text-lg">Users found</h2>
+                        </div>
+                        {% for user in found_users %}
+                            <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
+                                <div class="flex items-center justify-between py-3">
+                                    <div class="flex flex-1 items-center space-x-4">
+                                        <a href="{% url 'update profile' pk=user.pk %}">
+                                            <img src="{{ user.profile.profileimg.url }}"
+                                                 class="bg-gray-200 rounded-full w-10 h-10" alt="">
+                                        </a>
+                                        <div class="flex flex-col">
+                                            <span class="block capitalize font-semibold"> {{ user.username }} </span>
+                                            <span class="block capitalize text-sm">  </span>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'update profile' pk=user.pk %}"
+                                       class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 ">
+                                        View </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
                 </div>
 
@@ -216,5 +251,5 @@
         </div>
 
     {% endif %}
-
+    </body>
 {% endblock %}
