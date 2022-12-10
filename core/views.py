@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, FormView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, FormView, DetailView, DeleteView, ListView
 
 from core.forms import SignUpForm, SignInForm, PostForm, LikeForm, CommentForm
 from core.models import Profile, PostMaker, LikePhoto, CommentPhoto, FollowUser
@@ -18,6 +18,8 @@ UserModel = get_user_model()
 def index(request):
     all_photos = None
     liked_photos = None
+    found_users = None
+    given_query = None
     comment_form = CommentForm()
     all_users = UserModel.objects.all().order_by('-date_joined')
     all_profiles = Profile.objects.all()
@@ -25,6 +27,8 @@ def index(request):
     try:
         all_photos = PostMaker.objects.all()
         liked_photos = LikePhoto.objects.all()
+        found_users = UserModel.objects.filter(username__icontains=request.GET.get('find_user'))
+        given_query = request.GET.get('find_user')
 
     except:
         pass
@@ -35,6 +39,8 @@ def index(request):
         'comment_form': comment_form,
         'users': all_users[:5],
         'profiles': all_profiles,
+        'found_users': found_users,
+        'user_find_query': given_query,
     }
     return render(request, 'index.html', context=context)
 
@@ -71,7 +77,9 @@ class SettingsProfile(UpdateView):
     model = Profile
 
     fields = ('first_name', 'last_name', 'age', 'profileimg', 'timeline', 'location', 'bio')
-    success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse_lazy('update profile', kwargs={'pk': self.request.user.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -86,7 +94,6 @@ class UpdateProfile(DetailView):
     model = Profile
 
     fields = ('first_name', 'last_name', 'age', 'profileimg', 'location')
-    success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -115,6 +122,10 @@ class UpdatePost(UpdateView):
     fields = ['image', 'caption']
 
     success_url = reverse_lazy('index')
+
+
+class SearchUser(ListView):
+    model = UserModel
 
 
 def delete_photo(request, pk):
@@ -159,12 +170,11 @@ def comment_photo(request, photo_id):
     return redirect(f'{request.META["HTTP_REFERER"]}#photo-{photo_id}')
 
 
-
 def delete_comment(request, pk):
     comment = CommentPhoto.objects.get(pk=pk)
     comment.delete()
 
-    return redirect('index')
+    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{pk}')
 
 
 def update_comment(request, pk):
@@ -179,7 +189,6 @@ def update_comment(request, pk):
     context['update_comment'] = form
 
     return redirect(f'{request.META["HTTP_REFERER"]}#photo-{pk}')
-
 
 
 def follow_user(request, pk):
