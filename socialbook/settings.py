@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'core',
     'django_cleanup.apps.CleanupConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/login'
+
+AUTH_USER_MODEL = 'core.CustomUser'

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from core.models import Profile, PostMaker, LikePhoto, CommentPhoto
 
@@ -10,7 +10,7 @@ UserModel = get_user_model()
 class SignUpForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username',)
+        fields = ('email', 'username')
 
     def save(self, commit=True):
         user = super().save(commit=commit)
@@ -25,8 +25,13 @@ class SignUpForm(UserCreationForm):
 class SignInForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username',)
+        fields = ('username','email')
 
+
+class CustomUserEditForm(UserChangeForm):
+    class Meta:
+        model = UserModel
+        fields = ('username','email')
 
 class PostForm(forms.ModelForm):
     class Meta:
