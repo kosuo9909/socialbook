@@ -1,8 +1,7 @@
-from django.http import HttpResponse
-from django.shortcuts import redirect
+
 from django.template import Library
 
-from core.models import LikePhoto
+from post.models import LikePhoto
 
 register = Library()
 
