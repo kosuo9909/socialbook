@@ -1,3 +1,6 @@
 media/timeline_images
 media/post_images
 media/profile_images
+*.gitignore
+db.sqlite3
+__pycache__
