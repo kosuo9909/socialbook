@@ -2,9 +2,11 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core import validators
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
-from core.managers import CustomUserManager
+from accounts.managers import CustomUserManager
 from core.validators import validate_letters
 
 
@@ -79,7 +81,7 @@ class Profile(models.Model):
                                    null=True,
                                    )
 
-    timeline = models.ImageField(upload_to='timeline_images', default='defaults/timeline1.png',
+    timeline = models.ImageField(upload_to='timeline_images', default='defaults/pythonweb-timeline.png',
                                  verbose_name='Timeline Picture',
                                  blank=True,
                                  null=True,
@@ -91,3 +93,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

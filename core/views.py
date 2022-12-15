@@ -1,5 +1,6 @@
 import pyperclip
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -14,17 +15,24 @@ UserModel = get_user_model()
 
 
 def index(request):
-    all_photos = None
-    liked_photos = None
+    # p = None
+    # all_photos = None
+    # liked_photos = None
     found_users = None
     given_query = None
     comment_form = CommentForm()
     all_users = UserModel.objects.all().order_by('-date_joined')
     all_profiles = Profile.objects.all()
+    liked_photos = LikePhoto.objects.all()
+
+    all_photos = PostMaker.objects.all()
+    p = Paginator(all_photos.reverse(), 10)
+
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
 
     try:
-        all_photos = PostMaker.objects.all()
-        liked_photos = LikePhoto.objects.all()
+
         found_users = UserModel.objects.filter(username__icontains=request.GET.get('find_user'))
         given_query = request.GET.get('find_user')
 
@@ -39,6 +47,7 @@ def index(request):
         'profiles': all_profiles,
         'found_users': found_users,
         'user_find_query': given_query,
+        'page_obj': page_obj,
     }
     return render(request, 'index.html', context=context)
 
