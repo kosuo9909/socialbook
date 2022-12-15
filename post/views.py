@@ -2,6 +2,8 @@ from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
+
+from post.forms import CommentForm
 from post.models import PostMaker, LikePhoto, CommentPhoto
 
 

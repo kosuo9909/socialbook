@@ -11,14 +11,14 @@ class SignUpForm(UserCreationForm):
         model = UserModel
         fields = ('email', 'username')
 
-    def save(self, commit=True):
-        user = super().save(commit=commit)
-        profile = Profile(
-            user=user,
-        )
-        if commit:
-            profile.save()
-        return user
+    # def save(self, commit=True):
+    #     user = super().save(commit=commit)
+    #     profile = Profile(
+    #         user=user,
+    #     )
+    #     if commit:
+    #         profile.save()
+    #     return user
 
 
 class SignInForm(UserCreationForm):
