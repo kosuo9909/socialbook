@@ -35,7 +35,7 @@
     <form method="post" action="" enctype="multipart/form-data">
 
         {% for form_field in form %}
-            {% if is_owner or request.user.is_superuser %}
+            {% if is_owner or request.user.is_superuser or request.user.is_staff %}
             {{ form_field.label }}
             {{ form_field }}
             {% else %}
