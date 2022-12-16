@@ -57,7 +57,8 @@ class DeleteProfile(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('index')
 
     def test_func(self):
-        return self.object.user == self.request.user
+        my_object = self.get_object()
+        return my_object == self.request.user
 
 
 class SettingsProfile(UpdateView):
@@ -77,7 +78,7 @@ class SettingsProfile(UpdateView):
         return context
 
 
-class UpdateProfile(UserPassesTestMixin, DetailView):
+class UpdateProfile(DetailView):
     template_name = 'profile.html'
     model = Profile
 
@@ -89,9 +90,6 @@ class UpdateProfile(UserPassesTestMixin, DetailView):
         context['object_user'] = self.object.user
 
         return context
-
-    def test_func(self):
-        return self.object.user == self.request.user
 
 
 def follow_user(request, pk):

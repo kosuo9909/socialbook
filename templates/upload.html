@@ -21,7 +21,7 @@
 
 <div class="container m-auto">
 
-    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile
+    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> <a href="{% url "update profile" pk=request.user.pk %}">Profile </a>
     </h1>
     <br>
     <hr>
