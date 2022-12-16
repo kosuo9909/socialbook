@@ -37,7 +37,11 @@
                 <span style="color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.follower.count }} following</b></span>
                 <span style="color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.following.count }} followers</b></span>
                 {% if request.user.is_authenticated and request.user != object.user %}
-                    <a href="{% url 'follow user' pk=object_user.pk %}">Follow</a>
+                    {% if already_following %}
+                        <a href="{% url 'follow user' pk=object_user.pk %}">Unfollow </a>
+                    {% else %}
+                        <a href="{% url 'follow user' pk=object_user.pk %}">Follow</a>
+                    {% endif %}
                 {% endif %}
 
             </div>
@@ -103,7 +107,9 @@
                                     {% for photo in object.user.postmaker_set.all %}
 
                                         <li>
-                                            <a href='{% url 'index' %}#photo-{{ photo.pk }}'> <img src="{{ photo.image.url }}" style="height: 270px; width:100%;" alt=""> </a>
+                                            <a href='{% url 'index' %}#photo-{{ photo.pk }}'> <img
+                                                    src="{{ photo.image.url }}" style="height: 270px; width:100%;"
+                                                    alt=""> </a>
                                         </li>
 
                                     {% endfor %}

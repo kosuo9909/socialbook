@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DetailView, DeleteView
 
+import core.models
 from accounts.models import Profile
 from core.models import FollowUser
 from post.forms import CommentForm
@@ -16,14 +17,12 @@ UserModel = get_user_model()
 
 
 def index(request):
-
     found_users = None
     given_query = None
     comment_form = CommentForm()
     all_users = UserModel.objects.all().order_by('-date_joined')
     all_profiles = Profile.objects.all()
     liked_photos = LikePhoto.objects.all()
-
     all_photos = PostMaker.objects.all()
     p = Paginator(all_photos.reverse(), 10)
 
@@ -83,18 +82,24 @@ class UpdateProfile(DetailView):
     model = Profile
 
     fields = ('first_name', 'last_name', 'age', 'profileimg', 'location')
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_owner'] = self.object.pk == self.request.user.pk
         context['object_user'] = self.object.user
+        try:
+            context['already_following'] = True if self.request.user.following.get(user_id_id=self.object.user.pk) else False
+        except core.models.FollowUser.DoesNotExist:
+            pass
+        # print(self.object.user.follower.get(user_id_id=self.request.user.pk))
+        # test = self.request.user.follower.get(user_id_id=1)
+        # print(test)
 
         return context
 
 
 def follow_user(request, pk):
     try:
-        new_follower = FollowUser.objects.create(
+        FollowUser.objects.create(
             user_id=UserModel.objects.get(pk=pk),
             following_user_id=UserModel.objects.get(pk=request.user.pk),
 
