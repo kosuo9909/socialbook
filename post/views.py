@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -20,17 +22,25 @@ class UploadPhoto(CreateView):
         return super().form_valid(form)
 
 
-class UpdatePost(UpdateView):
+class UpdatePost(UserPassesTestMixin,UpdateView):
+
     template_name = 'update-post.html'
     model = PostMaker
     fields = ['image', 'caption']
 
     success_url = reverse_lazy('index')
 
+    def test_func(self):
+        my_object = self.get_object()
+        return my_object.user == self.request.user
+
 
 def delete_photo(request, pk):
     photo = PostMaker.objects.get(pk=pk)
-    photo.delete()
+    if photo.user.pk == request.user.pk:
+        photo.delete()
+    else:
+        raise PermissionDenied()
 
     return redirect('index')
 
@@ -72,20 +82,10 @@ def comment_photo(request, photo_id):
 
 def delete_comment(request, pk):
     comment = CommentPhoto.objects.get(pk=pk)
-    comment.delete()
 
-    return redirect(f'{request.META["HTTP_REFERER"]}#photo-{pk}')
-
-
-def update_comment(request, pk):
-    context = {}
-    comment = get_object_or_404(CommentPhoto, pk=pk)
-
-    form = CommentForm(request.POST or None, instance=comment)
-
-    if form.is_valid():
-        form.save()
-
-    context['update_comment'] = form
+    if comment.user.pk == request.user.pk:
+        comment.delete()
+    else:
+        raise PermissionDenied()
 
     return redirect(f'{request.META["HTTP_REFERER"]}#photo-{pk}')

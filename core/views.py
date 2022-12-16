@@ -1,5 +1,6 @@
 import pyperclip
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -15,9 +16,7 @@ UserModel = get_user_model()
 
 
 def index(request):
-    # p = None
-    # all_photos = None
-    # liked_photos = None
+
     found_users = None
     given_query = None
     comment_form = CommentForm()
@@ -52,10 +51,13 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-class DeleteProfile(DeleteView):
+class DeleteProfile(UserPassesTestMixin, DeleteView):
     model = UserModel
     context_object_name = 'delete_profile'
     success_url = reverse_lazy('index')
+
+    def test_func(self):
+        return self.object.user == self.request.user
 
 
 class SettingsProfile(UpdateView):
@@ -75,7 +77,7 @@ class SettingsProfile(UpdateView):
         return context
 
 
-class UpdateProfile(DetailView):
+class UpdateProfile(UserPassesTestMixin, DetailView):
     template_name = 'profile.html'
     model = Profile
 
@@ -87,6 +89,9 @@ class UpdateProfile(DetailView):
         context['object_user'] = self.object.user
 
         return context
+
+    def test_func(self):
+        return self.object.user == self.request.user
 
 
 def follow_user(request, pk):
