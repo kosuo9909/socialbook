@@ -76,18 +76,23 @@ class SettingsProfile(UpdateView):
 
         return context
 
+    def form_valid(self, form):
+        return super(SettingsProfile, self).form_valid(form)
+
 
 class UpdateProfile(DetailView):
     template_name = 'profile.html'
     model = Profile
 
     fields = ('first_name', 'last_name', 'age', 'profileimg', 'location')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_owner'] = self.object.pk == self.request.user.pk
         context['object_user'] = self.object.user
         try:
-            context['already_following'] = True if self.request.user.following.get(user_id_id=self.object.user.pk) else False
+            context['already_following'] = True if self.request.user.following.get(
+                user_id_id=self.object.user.pk) else False
         except core.models.FollowUser.DoesNotExist:
             pass
         # print(self.object.user.follower.get(user_id_id=self.request.user.pk))

@@ -7,7 +7,6 @@ from django.views.generic import CreateView
 from accounts.forms import SignUpForm
 
 
-
 class SignUp(CreateView, SuccessMessageMixin):
     template_name = 'signup.html'
     form_class = SignUpForm
