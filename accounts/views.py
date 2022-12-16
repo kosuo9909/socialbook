@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from accounts.forms import SignUpForm
-from accounts.models import Profile
+
 
 
 class SignUp(CreateView, SuccessMessageMixin):
