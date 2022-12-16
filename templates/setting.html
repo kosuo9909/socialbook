@@ -21,26 +21,29 @@
 
 <div class="container m-auto">
 
-    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile Settings
+    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> Profile
+        Settings
         {% if request.user.is_authenticated %}for {{ object.user.username }} {% endif %}
     </h1>
     <br>
     <hr>
-<form method="post" action="{% url 'delete profile' pk=request.user.pk %}">
- {{ delete_profile }}
+    <form method="post" action="{% url 'delete profile' pk=request.user.pk %}">
+        {{ delete_profile }}
 
-<button type="submit">Delete my profile </button>
-    {% csrf_token %}
-</form>
+        <button type="submit" style="font-size: 22px; color: mediumvioletred; margin-bottom: 12px; margin-top: 12px" >Delete profile</button>
+
+        {% csrf_token %}
+    </form>
     <form method="post" action="" enctype="multipart/form-data">
 
         {% for form_field in form %}
             {% if is_owner or request.user.is_superuser or request.user.is_staff %}
-            {{ form_field.label }}
-            {{ form_field }}
+                {{ form_field.label }}
+                {{ form_field.errors }}
+                {{ form_field }}
             {% else %}
 
-            <fieldset disabled="disabled"> {{ form_field }} </fieldset>
+                <fieldset disabled="disabled"> {{ form_field }} </fieldset>
             {% endif %}
         {% endfor %}
         {% csrf_token %}

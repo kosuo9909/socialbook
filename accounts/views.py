@@ -1,11 +1,10 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from accounts.forms import SignUpForm
-
 
 
 class SignUp(CreateView, SuccessMessageMixin):
