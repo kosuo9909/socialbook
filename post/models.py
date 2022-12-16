@@ -18,7 +18,7 @@ class PostMaker(models.Model):
 
     user = models.ForeignKey(
         CustomUser,
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
     )
 
     username = models.CharField(

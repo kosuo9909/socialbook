@@ -30,7 +30,8 @@
     <form method="post" action="{% url 'delete profile' pk=request.user.pk %}">
         {{ delete_profile }}
 
-        <button type="submit">Delete my profile</button>
+        <button type="submit" style="font-size: 22px; color: mediumvioletred; margin-bottom: 12px; margin-top: 12px" >Delete profile</button>
+
         {% csrf_token %}
     </form>
     <form method="post" action="" enctype="multipart/form-data">

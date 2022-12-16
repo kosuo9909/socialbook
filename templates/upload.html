@@ -21,15 +21,17 @@
 
 <div class="container m-auto">
 
-    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> <a href="{% url "update profile" pk=request.user.pk %}">Profile </a>
+    <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{% url 'index' %}">Home / </a> <a
+            href="{% url "update profile" pk=request.user.pk %}">Profile </a>
     </h1>
     <br>
     <hr>
-    <form method="post" action="{% url 'upload photo' %}"  enctype="multipart/form-data">
+    <form method="post" action="{% url 'upload photo' %}" enctype="multipart/form-data">
 
 
         {% for form_field in form %}
-       {{ form_field }}
+            {{ form_field.label }}
+            {{ form_field }}
 
         {% endfor %}
         {% csrf_token %}
@@ -40,7 +42,6 @@
 </div>
 
 <br>
-
 
 
 </body>
