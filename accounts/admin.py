@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
     list_display = ('username', 'email', 'is_staff', 'is_active')
-    list_filter = ('username', 'email', 'is_staff', 'is_active')
+    list_filter = ('username', 'email', 'last_login','is_staff', 'is_active')
 
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
@@ -23,8 +23,8 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'username', 'password1', 'password2', 'is_staff', 'is_active')}
          ),
     )
-    search_fields = ('email',)
-    ordering = ('email',)
+    search_fields = ('email','username')
+    ordering = ('email','username')
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

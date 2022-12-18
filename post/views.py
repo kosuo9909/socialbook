@@ -32,12 +32,12 @@ class UpdatePost(UserPassesTestMixin,UpdateView):
 
     def test_func(self):
         my_object = self.get_object()
-        return my_object.user == self.request.user
+        return my_object.user == self.request.user or self.request.user.is_superuser
 
 
 def delete_photo(request, pk):
     photo = PostMaker.objects.get(pk=pk)
-    if photo.user.pk == request.user.pk:
+    if photo.user.pk == request.user.pk or request.user.is_superuser:
         photo.delete()
     else:
         raise PermissionDenied()
@@ -83,7 +83,7 @@ def comment_photo(request, photo_id):
 def delete_comment(request, pk):
     comment = CommentPhoto.objects.get(pk=pk)
 
-    if comment.user.pk == request.user.pk:
+    if comment.user.pk == request.user.pk or request.user.is_superuser:
         comment.delete()
     else:
         raise PermissionDenied()

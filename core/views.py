@@ -93,7 +93,7 @@ class UpdateProfile(DetailView):
         try:
             context['already_following'] = True if self.request.user.following.get(
                 user_id_id=self.object.user.pk) else False
-        except core.models.FollowUser.DoesNotExist:
+        except (core.models.FollowUser.DoesNotExist, AttributeError):
             pass
         # print(self.object.user.follower.get(user_id_id=self.request.user.pk))
         # test = self.request.user.follower.get(user_id_id=1)

@@ -29,13 +29,13 @@
                      style="height: 580px; width: 100%"></figure>
         <form>
             <div class="add-btn">
-                <span style="color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;; margin-right: 460px;"><b><u><a
+                <span style="color: white; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;; margin-right: 460px;"><b><u><a
                         href="/">Home</a></u></b></span>
-                <span style="color: black; font-size: 27px; font-family: 'Lucida Grande', Arial, sans-serif;"> <b> {{ object.user.postmaker_set.all.count }} total posts</b></span>
-                <span style=" color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object.user.owner.all.count }} total post
+                <span style="color: white; font-size: 27px; font-family: 'Lucida Grande', Arial, sans-serif;"> <b> {{ object.user.postmaker_set.all.count }} total posts</b></span>
+                <span style=" color: white; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object.user.owner.all.count }} total post
                 likes</b></span>
-                <span style="color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.follower.count }} following</b></span>
-                <span style="color: black; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.following.count }} followers</b></span>
+                <span style="color: white; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.following.count }} following</b></span>
+                <span style="color: white; font-size: 27px;font-family: 'Lucida Grande', Arial, sans-serif;"><b>{{ object_user.follower.count }} followers</b></span>
                 {% if request.user.is_authenticated and request.user != object.user %}
                     {% if already_following %}
                         <a href="{% url 'follow user' pk=object_user.pk %}">Unfollow </a>
