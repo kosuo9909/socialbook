@@ -1,6 +1,6 @@
 # socialbook
 
-A simple project made using Python, Django and PostgreSQL. It aims to provide social-media-like features, including:
+A simple project made using Python, Django and PostgreSQL, and HTML templates. It aims to provide social-media-like features, including:
 - Register
 - Login/Logout/Delete profile
 - Upload/Edit/Delete post (photo-based)
