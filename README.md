@@ -13,4 +13,3 @@ A simple project made using Python, Django and PostgreSQL, and HTML templates. I
 ![alt text](https://i.imgur.com/O6jg5hK.png)
 ![alt text](https://i.imgur.com/KZQcaGO.png)
 ![alt text](https://i.imgur.com/TGSz9Tw.png)
-![alt text](https://i.imgur.com/jKzqPlb.png)
